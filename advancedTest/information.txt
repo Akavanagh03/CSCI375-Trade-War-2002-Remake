@@ -1,0 +1,56 @@
+
+# Multi-User Dungeon Game Explanation
+
+## Game Class
+The `Game` class manages the overall game state, including players and rooms. It handles adding players and rooms, processing player commands, and controlling the game loop.
+
+### Key Methods:
+- `__init__`: Initializes the game with empty player and room dictionaries and a running flag.
+- `add_room(room)`: Adds a new room to the game.
+- `add_player(player)`: Adds a new player to the game.
+- `start()`: Starts the game loop, prompting players for commands until the game ends.
+- `process_command(player, command)`: Processes the commands given by players (e.g., move, attack).
+
+## Player Class
+The `Player` class represents each player in the game, including their attributes and actions they can perform.
+
+### Key Methods:
+- `__init__(name, start_room)`: Initializes the player with a name, health, inventory, starting room, attack power, and gold.
+- `move(direction)`: Moves the player to a specified room if the direction is valid.
+- `look()`: Describes the current room.
+- `attack(target_name)`: Attacks a specified monster in the room.
+- `take_damage(amount)`: Reduces the player's health by the specified damage amount.
+- `show_inventory()`: Displays the items in the player's inventory.
+- `show_status()`: Shows the player's current status (health, attack power, gold).
+- `use_item(item_name)`: Uses an item from the inventory.
+- `visit_shop()`: Allows the player to buy items from the shop.
+- `pickup_item()`: Picks up an item from the current room.
+
+## Monster Class
+The `Monster` class represents the monsters that players can encounter and fight within the game.
+
+### Key Methods:
+- `__init__(name, health, attack_power, items=None, gold=0)`: Initializes the monster with a name, health, attack power, items it can drop, and gold.
+- `attack(player)`: Attacks a specified player, dealing damage.
+- `take_damage(amount)`: Reduces the monster's health by the specified damage amount.
+- `drop_item()`: Randomly drops an item from the monster's inventory.
+
+## Room Class
+The `Room` class represents the different locations within the game where players can move, interact with monsters, and find items.
+
+### Key Methods:
+- `__init__(name, description)`: Initializes the room with a name and description.
+- `add_exit(direction, room)`: Defines exits from the room to other rooms.
+- `add_monster(monster)`: Adds a monster to the room.
+- `add_item(item)`: Adds an item to the room.
+- `describe()`: Describes the room and lists its contents (monsters and items).
+
+## Item Class
+The `Item` class represents items that players can use to heal themselves or boost their attack power.
+
+### Key Methods:
+- `__init__(name, description, effects)`: Initializes the item with a name, description, and effects.
+- `apply_effect(player)`: Applies the item's effects to the specified player (e.g., healing or boosting attack power).
+
+## Example Usage
+The example at the end of the code shows how to create an instance of the game, define rooms, monsters, and items, and start the game loop.
