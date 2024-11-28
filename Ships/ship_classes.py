@@ -5,6 +5,7 @@ class Ship():
     _range: int # distance the ship can travel in a single warp
     _credits: int # amount of currency owned (used for trade and repairs, maybe upgrades(?))
     _cargo: dict  = {str: int} # still need to figure out what exactly the types of cargo are
+    _max_cargo: int # maximum quantity a ship can hold in terms of cargo
     _name: str # what the ship is called
     _current_location: str # where the ship is in the universe
 
@@ -88,9 +89,20 @@ class Ship():
     @cargo.deleter
     def cargo(self) -> None:
         del self._cargo
+# Max_Cargo Property
+    @property
+    def max_cargo(self) -> int:
+        return self._max_cargo
+    @max_cargo.setter
+    def max_cargo(self, value: int) -> None:
+        self._max_cargo = value
+    @max_cargo.deleter
+    def max_cargo(self) -> None:
+        del self._max_cargo
+
 
 # Initiate a ship
-    def __init__(self, nm: str, locate: str, hp: int, atk: int, defe: int, rng: int, cdts: int, crgo: dict):
+    def __init__(self, nm: str, locate: str, hp: int, atk: int, defe: int, rng: int, cdts: int, max_crgo: int, crgo: dict):
         self.name = nm
         self.current_location = locate
         self.health = hp
@@ -98,6 +110,7 @@ class Ship():
         self.defense = defe
         self.range = rng
         self.credits = cdts
+        self.max_cargo = max_crgo
         self.cargo = crgo
         
     def battle(self, opponent: Ship) -> None:
@@ -138,10 +151,49 @@ class Ship():
         print("Warp")
 
 class Fighter(Ship):
-    def __init__(self, nm: str, locate: str, hp: int, atk: int, defe: int, rng: int, cdts: int, crgo: dict):
+    def __init__(self, nm: str, locate: str, cdts: int, crgo: dict):
         self.name = nm
         self.current_location = locate
-        self.health = hp
-        self.attack = atk
-        self.defense = defe
-        self.range = rng
+        self.health = 90
+        self.attack = 60
+        self.defense = 20
+        self.range = 2
+        self.cargo = crgo
+        self.max_cargo = 100
+        self.credits = cdts
+    
+class Freighter(Ship):
+    def __init__(self, nm: str, locate: str, cdts: int, crgo: dict):
+        self.name = nm
+        self.current_location = locate
+        self.health = 110
+        self.attack = 40
+        self.defense = 40
+        self.range = 3
+        self.cargo = crgo
+        self.max_cargo = 200
+        self.credits = cdts
+
+class Defender(Ship):
+    def __init__(self, nm: str, locate: str, cdts: int, crgo: dict):
+        self.name = nm
+        self.current_location = locate
+        self.health = 130
+        self.attack = 30
+        self.defense = 60
+        self.range = 3
+        self.cargo = crgo
+        self.max_cargo = 100
+        self.credits = cdts
+
+class Explorer(Ship):
+        def __init__(self, nm: str, locate: str, cdts: int, crgo: dict):
+            self.name = nm
+            self.current_location = locate
+            self.health = 100
+            self.attack = 50
+            self.defense = 50
+            self.range = 5
+            self.cargo = crgo
+            self.max_cargo = 150
+            self.credits = cdts
