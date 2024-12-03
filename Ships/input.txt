@@ -1,0 +1,6 @@
+sol
+steel 12, oxygen 4, medicine 14
+centuri, wolf-359, super-earth
+centuri
+steel 5, medicine 30, weed 42
+sol, wolf-359, hoth

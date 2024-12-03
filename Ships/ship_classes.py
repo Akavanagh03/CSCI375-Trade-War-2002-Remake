@@ -114,6 +114,7 @@ class Ship():
         self.max_cargo = max_crgo
         self.cargo = crgo
         
+# =========== Battle =============    
     def battle(self, opponent: typing.Any) -> None:
         print(f"Battle initiated between {self.name} and {opponent.name}!")
         
@@ -159,18 +160,20 @@ class Ship():
             print(f"{self.name} has been defeated!")
         elif opponent.health <= 0:
             print(f"{opponent.name} has been defeated!")
-    
-    def trade(self, system: dict) -> None:
+            
+# ========= Trade =====================    
+    def trade(self) -> None:
         print(f"\nWelcome to the trade center at {self.current_location}.")
         print("Options: [buy, sell, repair, upgrade, exit]")
-        
+        system:dict[str:int] = game_map[self.current_location].trade_goods
         while True:
             action = input("Choose an action: ").strip().lower()
 
             if action == "buy":
                 print("Available items for purchase:")
-                for i, (item, price) in enumerate(system.get("items", {}).items(), start=1):
-                    print(f"{i}. {item} - {price} credits")
+                i : int = 1
+                for item in system:
+                    print(f"{i}. {item} - {system[item]} credits")
                 choice = input("Select an item to buy (number) or type 'exit': ").strip()
                 
                 if choice.isdigit() and 1 <= int(choice) <= len(system["items"]):
@@ -244,10 +247,9 @@ class Ship():
 
             else:
                 print("Invalid action.")
-
-
-    
-    def warp(self, system):
+                
+# =========== Warp ==============
+    def warp(self):
         # warp function goes here
         '''
         based on warp range, allows ship to reach a certain distance per warp
@@ -257,7 +259,13 @@ class Ship():
                 as a range of 1
                 can warp in 3 turns
         '''
-        print("Warp")
+        system: list[str] = game_map[self.current_location].connections
+        for warp in range(self.range):
+            print(f"Warp {warp}| What system would you like to go to?")
+            i: int = 1
+            for system in game_map[self.current_location].connections:
+                print(f"{i}. {system}")
+            self.current_location = input("Enter Destination: ").strip().lower()
 
 class Fighter(Ship):
     def __init__(self, nm: str, locate: str, cdts: int, crgo: dict):
@@ -307,12 +315,70 @@ class Explorer(Ship):
             self.max_cargo = 150
             self.credits = cdts
 
-if __name__ == "__main__":
-    cargo: dict = {
-        "salt": 12,
-        "scrap": 3
-    }
-    ship1: Explorer = Explorer("test-1","home",1000,cargo)
-    ship2: Freighter = Freighter("test-2","home",1000,cargo)
+class system():
+    _name: str
+    _trade_goods: dict[str:int]
+    _connections: list[str]
     
-    ship1.battle(ship2)
+    @property
+    def name(self) -> str:
+        return self._name
+    @name.setter
+    def name(self, value: str)-> None:
+        self._name = value
+    @name.deleter
+    def name(self)-> None:
+        del self._name
+        
+    @property
+    def trade_goods(self)-> dict[str:int]:
+        return self._trade_goods
+    @trade_goods.setter
+    def trade_goods(self,value: dict[str:int]) -> None:
+        self._trade_goods = value
+    @trade_goods.deleter
+    def trade_goods(self) -> None:
+        del self._trade_goods
+    
+    @property
+    def connections(self) -> list[str]:
+        return self._connections
+    @connections.setter
+    def connections(self, value: list[str]) -> None:
+        self._connections = value
+    @connections.deleter
+    def connections(self) -> None:
+        del self._connections
+        
+    def __init__(self,sys_name: str, sys_goods:dict[str:int], sys_connect: list[str]) -> None:
+        self.name = sys_name
+        self.trade_goods = sys_goods
+        self.connections = sys_connect
+
+game_map: dict[str:system] = {}
+
+# This will take a file with the same formatting as input.txt and load it into the game map dict to allow interation with ships 
+def load_map(file:str) -> None:
+    infile: str = "./"+ file
+    with open(infile) as info:
+        name: str
+        while(name := info.readline()):
+            goods: list[str] = info.readline().lower().split(", ")
+            connections: list[str] = info.readline().lower().split(", ")
+            dict_goods: dict[str:int] = {}
+            
+            for item in goods:
+                split_item: list[str] = item.split()
+                dict_goods[split_item[0]] = int(split_item[1])
+            game_map[name] = system(name,dict_goods,connections)
+
+if __name__ == "__main__":            
+    infile: str = "input.txt"
+    load_map(infile)
+    for system in game_map:
+        
+        print(f"Name:{game_map[system].name}trade goods: {game_map[system].trade_goods}\nconnections: {game_map[system].connections}")
+        
+    ship1: Explorer = Explorer("del",'sol',1000,{})
+    # ship1.trade()
+        
