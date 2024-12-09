@@ -1,23 +1,26 @@
 def trade(self, system: dict) -> None:
     print(f"\nWelcome to the trade center at {self.current_location}.")
     print("Options: [buy, sell, repair, upgrade, exit]")
-    
+
     while True:
         action = input("Choose an action: ").strip().lower()
 
         if action == "buy":
             print("Available items for purchase:")
-            for i, (item, price) in enumerate(system.get("items", {}).items(), start=1):
+            for i, (item, price) in enumerate(
+                    system.get("items", {}).items(), start=1):
                 print(f"{i}. {item} - {price} credits")
-            choice = input("Select an item to buy (number) or type 'exit': ").strip()
-            
+            choice = input(
+                "Select an item to buy (number) or type 'exit': ").strip()
+
             if choice.isdigit() and 1 <= int(choice) <= len(system["items"]):
                 item_name = list(system["items"].keys())[int(choice) - 1]
                 price = system["items"][item_name]
                 if self.credits >= price:
                     self.credits -= price
                     self.cargo[item_name] = self.cargo.get(item_name, 0) + 1
-                    print(f"Bought {item_name}. Remaining credits: {self.credits}")
+                    print(
+                        f"Bought {item_name}. Remaining credits: {self.credits}")
                 else:
                     print("Not enough credits.")
             elif choice.lower() == "exit":
@@ -29,11 +32,13 @@ def trade(self, system: dict) -> None:
             print("Your cargo:")
             for i, (item, quantity) in enumerate(self.cargo.items(), start=1):
                 print(f"{i}. {item} x{quantity}")
-            choice = input("Select an item to sell (number) or type 'exit': ").strip()
+            choice = input(
+                "Select an item to sell (number) or type 'exit': ").strip()
 
             if choice.isdigit() and 1 <= int(choice) <= len(self.cargo):
                 item_name = list(self.cargo.keys())[int(choice) - 1]
-                price = system["items"].get(item_name, 0) // 2  # Sell price is half
+                price = system["items"].get(
+                    item_name, 0) // 2  # Sell price is half
                 self.credits += price
                 self.cargo[item_name] -= 1
                 if self.cargo[item_name] == 0:
@@ -50,7 +55,8 @@ def trade(self, system: dict) -> None:
             if repair_amount > 0:
                 self.credits -= repair_amount * cost_per_hp
                 self.health += repair_amount
-                print(f"Repaired {repair_amount} health. Current health: {self.health}, Credits: {self.credits}")
+                print(
+                    f"Repaired {repair_amount} health. Current health: {self.health}, Credits: {self.credits}")
             else:
                 print("Not enough credits or health is already full.")
 
@@ -72,7 +78,8 @@ def trade(self, system: dict) -> None:
                     print("Invalid stat.")
                     continue
                 self.credits -= upgrade_cost
-                print(f"Upgraded {stat}. Current stats: Attack={self.attack}, Defense={self.defense}, Range={self.range}, Health={self.health}")
+                print(
+                    f"Upgraded {stat}. Current stats: Attack={self.attack}, Defense={self.defense}, Range={self.range}, Health={self.health}")
             else:
                 print("Not enough credits for an upgrade.")
 

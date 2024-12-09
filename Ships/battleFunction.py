@@ -1,8 +1,9 @@
 def battle(self, opponent: Ship) -> None:
     print(f"Battle initiated between {self.name} and {opponent.name}!")
-    
+
     while self.health > 0 and opponent.health > 0:
-        print(f"\n{self.name}'s Health: {self.health} | {opponent.name}'s Health: {opponent.health}")
+        print(
+            f"\n{self.name}'s Health: {self.health} | {opponent.name}'s Health: {opponent.health}")
         print("Choose an action: [attack, defend, charge, escape]")
         action = input(f"{self.name}'s action: ").strip().lower()
 
@@ -12,11 +13,13 @@ def battle(self, opponent: Ship) -> None:
             print(f"{self.name} attacks {opponent.name} for {damage} damage!")
 
         elif action == "defend":
-            print(f"{self.name} prepares to defend. Incoming damage will be halved for the next turn.")
+            print(
+                f"{self.name} prepares to defend. Incoming damage will be halved for the next turn.")
             self.defense *= 2  # Temporarily doubles defense
 
         elif action == "charge":
-            print(f"{self.name} charges weapons, increasing attack power for the next turn!")
+            print(
+                f"{self.name} charges weapons, increasing attack power for the next turn!")
             self.attack += 5  # Temporarily boosts attack
 
         elif action == "escape":
@@ -24,8 +27,9 @@ def battle(self, opponent: Ship) -> None:
                 print(f"{self.name} successfully escapes the battle!")
                 return
             else:
-                print(f"{self.name} fails to escape as {opponent.name}'s range is higher.")
-        
+                print(
+                    f"{self.name} fails to escape as {opponent.name}'s range is higher.")
+
         else:
             print("Invalid action. You lose a turn!")
 
@@ -33,7 +37,8 @@ def battle(self, opponent: Ship) -> None:
         if opponent.health > 0:
             opponent_damage = max(1, opponent.attack - self.defense)
             self.health -= opponent_damage
-            print(f"{opponent.name} attacks {self.name} for {opponent_damage} damage!")
+            print(
+                f"{opponent.name} attacks {self.name} for {opponent_damage} damage!")
 
         # Reset temporary boosts
         self.defense = max(self.defense // 2, 1)
