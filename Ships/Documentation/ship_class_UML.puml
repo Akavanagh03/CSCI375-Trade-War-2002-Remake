@@ -1,0 +1,94 @@
+@startuml
+Title Trade wars 2002 Remake
+
+class Ship {
+
+    - int _health
+
+    - int _attack
+
+    - int _defense
+
+    - int _range
+
+    - int _credits
+
+    - dict _cargo
+
+    - int _max_cargo
+
+    - str _name
+
+    - str _current_location
+
+
+
+    + int health { get; set; delete }
+
+    + int attack { get; set; delete }
+
+    + int defense { get; set; delete }
+
+    + int range { get; set; delete }
+
+    + int credits { get; set; delete }
+
+    + str name { get; set; delete }
+
+    + str current_location { get; set; delete }
+
+    + dict cargo { get; set; delete }
+
+    + int max_cargo { get; set; delete }
+
+
+
+    + __init__(str, str, int, int, int, int, int, int, dict)
+
+    + battle(Ship): None
+
+    + trade(system): None
+
+    + warp(system): None
+
+}
+
+
+
+class Fighter {
+
+    + __init__(str, str, int, dict)
+
+}
+
+class Freighter {
+
+    + __init__(str, str, int, dict)
+
+}
+
+class Defender {
+
+    + __init__(str, str, int, dict)
+
+}
+
+class Explorer {
+
+    + __init__(str, str, int, dict)
+
+}
+
+
+
+Ship <|-- Fighter
+
+Ship <|-- Freighter
+
+Ship <|-- Defender
+
+Ship <|-- Explorer
+
+
+
+@enduml
